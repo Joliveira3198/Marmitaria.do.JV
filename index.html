@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,47 +9,38 @@
 <body>
     <header>
         <h1>Marmitaria do JV</h1>
+        <nav>
+            <button onclick="mostrarSecao('categorias')">Categorias</button>
+            <button onclick="mostrarSecao('sabores')">Sabores do Dia</button>
+            <button onclick="mostrarSecao('carrinho')">Carrinho</button>
+        </nav>
     </header>
     <main>
-        <section class="categoria">
-            <h2>Marmita de 500ml - R$ 12,00</h2>
-            <div class="produtos">
-                <div class="produto">
-                    <img src="img/marmita1.jpg" alt="Marmita 500ml">
-                    <h3>Feijão, Arroz e Frango</h3>
-                    <p>Uma combinação simples e deliciosa.</p>
-                    <button onclick="adicionarAoCarrinho('Feijão, Arroz e Frango', 12, 'img/marmita1.jpg')">+</button>
-                </div>
+        <section id="categorias" class="secao ativa">
+            <h2>Categorias</h2>
+            <div class="categoria" data-nome="500ml">
+                <h3>Marmita 500ml</h3>
+                <button onclick="adicionarItem('Marmita 500ml', 15)">+</button>
+            </div>
+            <div class="categoria" data-nome="750ml">
+                <h3>Marmita 750ml</h3>
+                <button onclick="adicionarItem('Marmita 750ml', 20)">+</button>
+            </div>
+            <div class="categoria" data-nome="1000ml">
+                <h3>Marmita 1000ml</h3>
+                <button onclick="adicionarItem('Marmita 1000ml', 25)">+</button>
             </div>
         </section>
-        <section class="categoria">
-            <h2>Marmita de 750ml - R$ 18,00</h2>
-            <div class="produtos">
-                <div class="produto">
-                    <img src="img/marmita2.jpg" alt="Marmita 750ml">
-                    <h3>Macarrão e Carne Moída</h3>
-                    <p>Refeição reforçada para sua rotina.</p>
-                    <button onclick="adicionarAoCarrinho('Macarrão e Carne Moída', 18, 'img/marmita2.jpg')">+</button>
-                </div>
-            </div>
+        <section id="sabores" class="secao">
+            <h2>Sabores do Dia</h2>
+            <ul id="lista-sabores"></ul>
+            <p id="mensagem-fim-semana" style="display:none; color:red;">Marmitaria fechada — vendemos de segunda a sexta.</p>
         </section>
-        <section class="categoria">
-            <h2>Marmita de 1000ml - R$ 25,00</h2>
-            <div class="produtos">
-                <div class="produto">
-                    <img src="img/marmita3.jpg" alt="Marmita 1000ml">
-                    <h3>Completa com Salada</h3>
-                    <p>Uma refeição completa e saudável.</p>
-                    <button onclick="adicionarAoCarrinho('Completa com Salada', 25, 'img/marmita3.jpg')">+</button>
-                </div>
-            </div>
-        </section>
-
-        <aside id="carrinho">
+        <section id="carrinho" class="secao">
             <h2>Carrinho</h2>
-            <ul id="itens-carrinho"></ul>
-            <p>Total: R$ <span id="total">0.00</span></p>
-        </aside>
+            <ul id="lista-carrinho"></ul>
+            <p>Total: R$ <span id="total">0</span></p>
+        </section>
     </main>
     <script src="script.js"></script>
 </body>

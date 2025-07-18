@@ -1,70 +1,73 @@
-
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5faff;
     margin: 0;
     padding: 0;
+    background: #f7f7f7;
+    color: #333;
 }
 
 header {
-    background-color: #cce4f6;
-    padding: 20px;
+    background: #ff5722;
+    color: white;
+    padding: 1rem;
     text-align: center;
 }
 
-h1 {
-    margin: 0;
+nav {
+    margin-top: 0.5rem;
+}
+
+nav button {
+    margin: 0 0.5rem;
+    background: white;
+    color: #ff5722;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+nav button:hover {
+    background: #ffe0b2;
 }
 
 main {
-    padding: 20px;
+    padding: 1rem;
 }
 
 .categoria {
-    margin-bottom: 30px;
-}
-
-.produtos {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.produto {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 10px;
-    width: 250px;
-    text-align: center;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.produto img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
+    background: white;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 button {
-    background-color: #85c4ff;
+    background: #4caf50;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
 }
 
-#carrinho {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-top: 40px;
-    border-radius: 10px;
+button:hover {
+    background: #45a049;
 }
 
-#itens-carrinho li {
-    list-style: none;
-    margin-bottom: 10px;
+#carrinho, #sabores {
+    margin-top: 2rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.secao {
+    display: none;
+}
+
+.secao.ativa {
+    display: block;
 }

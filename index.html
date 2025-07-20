@@ -1,62 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marmitaria do JV</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Marmitaria do JV - V9</title>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<header style="text-align: center;">
-    <img src="banner.png" alt="Banner Marmitaria do JV" style="width: 100%; max-height: 250px; object-fit: cover;">
+<header>
+    <h1>Marmitaria do JV</h1>
+    <nav>
+        <a href="#sabores">Sabores do Dia</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#carrinho">Carrinho</a>
+        <a href="#cliente">Área do Cliente</a>
+    </nav>
 </header>
-
-    <header>
-        <h1>Marmitaria do JV</h1>
-        <nav>
-            <button onclick="mostrarSecao('categorias')">Categorias</button>
-            <button onclick="mostrarSecao('sabores')">Sabores do Dia</button>
-            <button onclick="mostrarSecao('carrinho')">Carrinho</button>
-        </nav>
-    </header>
-    <main>
-        <section id="categorias" class="secao ativa">
-            <h2>Categorias</h2>
-            <div class="categoria" data-nome="500ml">
-                <h3>Marmita 500ml</h3>
-                <button onclick="adicionarItem('Marmita 500ml', 15)">+</button>
-            </div>
-            <div class="categoria" data-nome="750ml">
-                <h3>Marmita 750ml</h3>
-                <button onclick="adicionarItem('Marmita 750ml', 20)">+</button>
-            </div>
-            <div class="categoria" data-nome="1000ml">
-                <h3>Marmita 1000ml</h3>
-                <button onclick="adicionarItem('Marmita 1000ml', 25)">+</button>
-            </div>
-        </section>
-        <section id="sabores" class="secao">
-            <h2>Sabores do Dia</h2>
-            <ul id="lista-sabores"></ul>
-            <p id="mensagem-fim-semana" style="display:none; color:red;">Marmitaria fechada — vendemos de segunda a sexta.</p>
-        </section>
-        <section id="carrinho" class="secao">
-            <h2>Carrinho</h2>
-            <ul id="lista-carrinho"></ul>
-            <p>Total: R$ <span id="total">0</span></p>
-        </section>
-    </main>
-    <script src="script.js"></script>
-
-<section id="precos" style="text-align: center; padding: 20px;">
-    <h2>Valores das Marmitas</h2>
-    <ul style="list-style: none; padding: 0; font-size: 1.2em;">
-        <li><strong>350ml:</strong> R$ 15,00</li>
-        <li><strong>500ml:</strong> R$ 18,00</li>
-        <li><strong>1000ml:</strong> R$ 25,00</li>
-    </ul>
-</section>
-
+<main>
+    <section id="sabores">
+        <h2>Sabores do Dia</h2>
+        <div id="sabores-hoje"></div>
+    </section>
+    <section id="cardapio">
+        <h2>Cardápio</h2>
+        <div class="categoria" data-tipo="500ml">
+            <h3>Marmita 500ml</h3>
+            <button onclick="adicionarCarrinho('Marmita 500ml', 20.00)">Adicionar +</button>
+        </div>
+        <div class="categoria" data-tipo="750ml">
+            <h3>Marmita 750ml</h3>
+            <button onclick="adicionarCarrinho('Marmita 750ml', 30.00)">Adicionar +</button>
+        </div>
+        <div class="categoria" data-tipo="1000ml">
+            <h3>Marmita 1000ml</h3>
+            <button onclick="adicionarCarrinho('Marmita 1000ml', 40.00)">Adicionar +</button>
+        </div>
+    </section>
+    <section id="carrinho">
+        <h2>Seu Carrinho</h2>
+        <ul id="lista-carrinho"></ul>
+        <p id="promocao"></p>
+        <p id="total"></p>
+        <button onclick="finalizarPedido()">Finalizar Pedido</button>
+        <button onclick="repetirUltimoPedido()">Repetir Último Pedido</button>
+    </section>
+    <section id="cliente">
+        <h2>Área do Cliente</h2>
+        <p>Cadastre-se via WhatsApp e acesse seu histórico de pedidos, pontos de fidelidade e recomendações.</p>
+        <button onclick="cadastrarCliente()">Cadastrar / Entrar</button>
+        <p id="pontos"></p>
+        <h3>Histórico de Pedidos</h3>
+        <ul id="historico"></ul>
+        <h3>Recomendações para você</h3>
+        <ul id="recomendacoes"></ul>
+    </section>
+</main>
+<script src="script.js"></script>
 </body>
 </html>

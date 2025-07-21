@@ -1,60 +1,92 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Marmitaria do JV - V9</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marmitaria do JV</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header>
+  <header>
     <h1>Marmitaria do JV</h1>
-    <nav>
-        <a href="#sabores">Sabores do Dia</a>
-        <a href="#cardapio">Cardápio</a>
-        <a href="#carrinho">Carrinho</a>
-        <a href="#cliente">Área do Cliente</a>
-    </nav>
-</header>
-<main>
-    <section id="sabores">
-        <h2>Sabores do Dia</h2>
-        <div id="sabores-hoje"></div>
+  </header>
+
+  <main>
+    <!-- Login para admin -->
+    <section id="admin-login" class="hidden">
+      <h2>Login do Administrador</h2>
+      <input type="password" id="admin-senha" placeholder="Digite a senha..." />
+      <button onclick="loginAdmin()">Entrar</button>
     </section>
-    <section id="cardapio">
-        <h2>Cardápio</h2>
-        <div class="categoria" data-tipo="500ml">
-            <h3>Marmita 500ml</h3>
-            <button onclick="adicionarCarrinho('Marmita 500ml', 20.00)">Adicionar +</button>
-        </div>
-        <div class="categoria" data-tipo="750ml">
-            <h3>Marmita 750ml</h3>
-            <button onclick="adicionarCarrinho('Marmita 750ml', 30.00)">Adicionar +</button>
-        </div>
-        <div class="categoria" data-tipo="1000ml">
-            <h3>Marmita 1000ml</h3>
-            <button onclick="adicionarCarrinho('Marmita 1000ml', 40.00)">Adicionar +</button>
-        </div>
+
+    <!-- Dashboard do Admin -->
+    <section id="dashboard" class="hidden">
+      <h2>Dashboard Administrativo</h2>
+      <div id="relatorios">
+        <p><strong>Total de Pedidos:</strong> <span id="total-pedidos">0</span></p>
+        <p><strong>Último Pedido:</strong> <span id="ultimo-pedido">Nenhum</span></p>
+      </div>
+      <button onclick="logoutAdmin()">Sair</button>
     </section>
-    <section id="carrinho">
-        <h2>Seu Carrinho</h2>
-        <ul id="lista-carrinho"></ul>
-        <p id="promocao"></p>
-        <p id="total"></p>
-        <button onclick="finalizarPedido()">Finalizar Pedido</button>
-        <button onclick="repetirUltimoPedido()">Repetir Último Pedido</button>
+
+    <!-- Seção de pedidos -->
+    <section id="pedido">
+      <h2>Monte sua Marmita</h2>
+      <form id="form-pedido">
+        <label for="tamanho">Tamanho:</label>
+        <select id="tamanho" name="tamanho">
+          <option value="500">500ml - R$15</option>
+          <option value="750">750ml - R$18</option>
+          <option value="1000">1000ml - R$25</option>
+        </select>
+
+        <label>Ingredientes:</label>
+        <input type="checkbox" name="ingredientes" value="arroz" /> Arroz<br />
+        <input type="checkbox" name="ingredientes" value="feijao" /> Feijão<br />
+        <input type="checkbox" name="ingredientes" value="salada" /> Salada<br />
+        <input type="checkbox" name="ingredientes" value="carne" /> Carne<br />
+
+        <label for="observacoes">Observações:</label>
+        <textarea id="observacoes" name="observacoes"></textarea>
+
+        <button type="submit">Adicionar ao Carrinho</button>
+      </form>
     </section>
-    <section id="cliente">
-        <h2>Área do Cliente</h2>
-        <p>Cadastre-se via WhatsApp e acesse seu histórico de pedidos, pontos de fidelidade e recomendações.</p>
-        <button onclick="cadastrarCliente()">Cadastrar / Entrar</button>
-        <p id="pontos"></p>
-        <h3>Histórico de Pedidos</h3>
-        <ul id="historico"></ul>
-        <h3>Recomendações para você</h3>
-        <ul id="recomendacoes"></ul>
+
+    <!-- Seção de pagamento -->
+    <section id="pagamento" class="hidden">
+      <h2>Escolha o método de pagamento</h2>
+      <button onclick="pagar('pix')">Pix</button>
+      <button onclick="pagar('cartao')">Cartão</button>
+      <button onclick="pagar('boleto')">Boleto</button>
     </section>
-</main>
-<script src="script.js"></script>
+
+    <!-- Seção de avaliação -->
+    <section id="avaliacao" class="hidden">
+      <h2>Avalie seu Pedido</h2>
+      <label>Nota:
+        <select id="nota">
+          <option value="1">1 estrela</option>
+          <option value="2">2 estrelas</option>
+          <option value="3">3 estrelas</option>
+          <option value="4">4 estrelas</option>
+          <option value="5">5 estrelas</option>
+        </select>
+      </label><br />
+      <label>Comentário:</label><br />
+      <textarea id="comentario"></textarea><br />
+      <button onclick="enviarAvaliacao()">Enviar Avaliação</button>
+    </section>
+
+    <!-- Chatbot -->
+    <section id="chatbot">
+      <h2>Atendimento</h2>
+      <div id="chat-window"></div>
+      <input type="text" id="chat-input" placeholder="Digite sua mensagem..." />
+      <button onclick="enviarMensagem()">Enviar</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>

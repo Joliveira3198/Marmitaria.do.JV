@@ -1,142 +1,79 @@
-const saboresSemana = {
-    'Segunda': ['Frango Grelhado', 'Carne Assada', 'Peixe'],
-    'Terça': ['Feijoada', 'Bife à Parmegiana', 'Strogonoff'],
-    'Quarta': ['Frango Xadrez', 'Costela Assada', 'Lasanha'],
-    'Quinta': ['Camarão', 'Carne de Sol', 'Yakissoba'],
-    'Sexta': ['Pizza', 'Feijoada Light', 'Frango ao Curry']
-};
 
-function mostrarSaboresHoje() {
-    const hoje = new Date().toLocaleString('pt-BR', {weekday: 'long'});
-    const diaFormatado = hoje.charAt(0).toUpperCase() + hoje.slice(1);
-    const sabores = saboresSemana[diaFormatado] || [];
-    document.getElementById('sabores-hoje').innerHTML = sabores.length
-        ? `<strong>Hoje (${diaFormatado}):</strong> ${sabores.join(', ')}`
-        : 'Sem sabores disponíveis hoje.';
-}
-mostrarSaboresHoje();
+// Pedido
+document.getElementById('form-pedido').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const tamanho = document.getElementById('tamanho').value;
+  const observacoes = document.getElementById('observacoes').value;
+  const ingredientes = [...document.querySelectorAll('input[name=ingredientes]:checked')].map(el => el.value);
+  localStorage.setItem('pedido', JSON.stringify({ tamanho, ingredientes, observacoes }));
+  alert('Pedido adicionado ao carrinho!');
+  document.getElementById('pagamento').classList.remove('hidden');
+});
 
-let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-let historico = JSON.parse(localStorage.getItem('historico')) || [];
-let pontosFidelidade = parseInt(localStorage.getItem('pontosFidelidade')) || 0;
-
-function adicionarCarrinho(item, preco) {
-    carrinho.push({nome: item, preco: preco});
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    atualizarCarrinho();
+// Pagamento
+function pagar(metodo) {
+  alert('Pagamento via ' + metodo + ' simulado com sucesso!');
+  document.getElementById('avaliacao').classList.remove('hidden');
 }
 
-function atualizarCarrinho() {
-    const lista = document.getElementById('lista-carrinho');
-    lista.innerHTML = '';
-    let total = 0;
-    carrinho.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.nome} - R$ ${item.preco.toFixed(2)}`;
-        lista.appendChild(li);
-        total += item.preco;
-    });
-    document.getElementById('total').textContent = `Total: R$ ${total.toFixed(2)}`;
-    verificarPromocao(total);
+// Avaliação
+function enviarAvaliacao() {
+  const nota = document.getElementById('nota').value;
+  const comentario = document.getElementById('comentario').value;
+  localStorage.setItem('avaliacao', JSON.stringify({ nota, comentario }));
+  alert('Obrigado pela sua avaliação!');
 }
 
-function verificarPromocao(total) {
-    const promo = document.getElementById('promocao');
-    if (carrinho.length >= 5) {
-        promo.textContent = '🎉 Promoção: Você ganhou um selo de fidelidade válido por 30 dias!';
-    } else {
-        promo.textContent = '';
-    }
+// Chatbot
+function enviarMensagem() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const chatWindow = document.getElementById('chat-window');
+  chatWindow.innerHTML += "<div><strong>Você:</strong> " + msg + "</div>";
+  let resposta = 'Não entendi. Pode repetir?';
+  if (msg.includes('horário')) resposta = 'Funcionamos de segunda a sábado, das 10h às 14h.';
+  if (msg.includes('pagamento')) resposta = 'Aceitamos Pix, cartão e boleto.';
+  if (msg.includes('pedido')) resposta = 'Você pode acompanhar o status do seu pedido aqui no site.';
+  chatWindow.innerHTML += "<div><strong>Bot:</strong> " + resposta + "</div>";
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+  input.value = '';
 }
 
-function finalizarPedido() {
-    if(carrinho.length === 0) {
-        alert('Seu carrinho está vazio!');
-        return;
-    }
-    const numeroPedido = Math.floor(Math.random() * 100000);
-    const numeroWhatsApp = '5585998424661';
-    let mensagem = `Pedido Nº${numeroPedido}:\n`;
-    let total = 0;
-    carrinho.forEach(item => {
-        mensagem += `${item.nome} - R$ ${item.preco.toFixed(2)}\n`;
-        total += item.preco;
-    });
-    mensagem += `Total: R$ ${total.toFixed(2)}\n`;
-    if (carrinho.length >= 5) {
-        mensagem += 'Selo de fidelidade válido por 30 dias incluído!\n';
-        adicionarPontos(10); // Exemplo: 10 pontos por pedido promocional
-    }
-    window.open(`https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`, '_blank');
-    salvarHistorico(numeroPedido, carrinho, total);
-    carrinho = [];
-    localStorage.removeItem('carrinho');
-    atualizarCarrinho();
-    mostrarPontos();
+// Painel Admin
+const adminSenha = "1234";
+
+function loginAdmin() {
+  const senha = document.getElementById("admin-senha").value;
+  if (senha === adminSenha) {
+    document.getElementById("admin-login").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+    atualizarDashboard();
+  } else {
+    alert("Senha incorreta.");
+  }
 }
 
-function adicionarPontos(pontos) {
-    pontosFidelidade += pontos;
-    localStorage.setItem('pontosFidelidade', pontosFidelidade);
+function logoutAdmin() {
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("admin-login").classList.remove("hidden");
 }
 
-function salvarHistorico(id, itens, total) {
-    historico.push({
-        id: id,
-        data: new Date().toLocaleDateString(),
-        itens: itens,
-        total: total
-    });
-    localStorage.setItem('historico', JSON.stringify(historico));
-    mostrarHistorico();
+function atualizarDashboard() {
+  const pedido = JSON.parse(localStorage.getItem("pedido"));
+  if (pedido) {
+    document.getElementById("total-pedidos").innerText = "1";
+    document.getElementById("ultimo-pedido").innerText = JSON.stringify(pedido);
+  } else {
+    document.getElementById("total-pedidos").innerText = "0";
+    document.getElementById("ultimo-pedido").innerText = "Nenhum";
+  }
 }
 
-function mostrarHistorico() {
-    const lista = document.getElementById('historico');
-    lista.innerHTML = '';
-    historico.forEach(p => {
-        const li = document.createElement('li');
-        li.textContent = `Pedido ${p.id} - ${p.data}: ${p.itens.map(i => i.nome).join(', ')} (R$ ${p.total.toFixed(2)})`;
-        lista.appendChild(li);
-    });
-}
-mostrarHistorico();
-
-function mostrarPontos() {
-    document.getElementById('pontos').textContent = `Pontos de fidelidade: ${pontosFidelidade}`;
-}
-mostrarPontos();
-
-function cadastrarCliente() {
-    alert('Cadastro rápido via WhatsApp realizado! Seu histórico estará disponível aqui.');
-}
-
-// Sistema de recomendação simples baseado em itens mais pedidos
-function gerarRecomendacoes() {
-    const recomendacoes = {};
-    historico.forEach(pedido => {
-        pedido.itens.forEach(item => {
-            recomendacoes[item.nome] = (recomendacoes[item.nome] || 0) + 1;
-        });
-    });
-    const itensOrdenados = Object.entries(recomendacoes).sort((a,b) => b[1] - a[1]).map(e => e[0]);
-    const listaRec = document.getElementById('recomendacoes');
-    listaRec.innerHTML = '';
-    itensOrdenados.slice(0, 3).forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = item;
-        listaRec.appendChild(li);
-    });
-}
-gerarRecomendacoes();
-
-function repetirUltimoPedido() {
-    if(historico.length === 0) {
-        alert('Nenhum pedido anterior para repetir.');
-        return;
-    }
-    const ultimo = historico[historico.length - 1];
-    carrinho = [...ultimo.itens];
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    atualizarCarrinho();
-}
+document.addEventListener("keydown", (e) => {
+  window._seq = (window._seq || "") + e.key;
+  if (window._seq.includes("admin")) {
+    document.getElementById("admin-login").classList.remove("hidden");
+    window._seq = "";
+  }
+});
